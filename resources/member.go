@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+var MemberFields = []string{"campaign_lifetime_support_cents", "currently_entitled_amount_cents", "email", "full_name", "is_follower", "last_charge_date", "last_charge_status", "lifetime_support_cents", "next_charge_date", "note", "patron_status", "pledge_cadence", "pledge_relationship_start", "will_pay_amount_cents"}
+
 // The record of a user's membership to a campaign. Remains consistent across months of pledging.
 type Member struct {
 	Type       string `json:"type"`
@@ -25,11 +27,11 @@ type Member struct {
 		WillPayAmountCents                 int       `json:"will_pay_amount_cents"`
 	} `json:"attributes"`
 	Relationships struct {
-		Address                *AddressRelationship      `json:"address"`
-		Campaign               *CampaignRelationship     `json:"campaign,omitempty"`
-		CurrentlyEntitledTiers *TiersRelationship        `json:"currently_entitled_tiers,omitempty"`
-		PledgeHistory          *PledgeEventsRelationship `json:"pledge_history,omitempty"`
-		User                   *UserRelationship         `json:"user"`
+		Address                *Relationship      `json:"address,omitempty"`
+		Campaign               *Relationship      `json:"campaign,omitempty"`
+		CurrentlyEntitledTiers *RelationshipArray `json:"currently_entitled_tiers,omitempty"`
+		PledgeHistory          *RelationshipArray `json:"pledge_history,omitempty"`
+		User                   *Relationship      `json:"user,omitempty"`
 	} `json:"relationships"`
 }
 
