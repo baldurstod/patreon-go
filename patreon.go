@@ -10,9 +10,12 @@ import (
 	"net/url"
 	"encoding/json"
 	"golang.org/x/oauth2"
-	"patreon-go/constants"
 	"patreon-go/resources"
 )
+
+const PatreonAuthURL = "https://www.patreon.com/oauth2/authorize"
+const PatreonTokenURL = "https://www.patreon.com/api/oauth2/token"
+const PatreonBaseURL = "https://www.patreon.com/"
 
 type PatreonConfig struct {
 	clientID string
@@ -42,8 +45,8 @@ func NewPatreonClient(patreonConfig *PatreonConfig) *PatreonClient {
 		ClientID: patreonConfig.clientID,
 		ClientSecret: patreonConfig.clientSecret,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  constants.PatreonAuthURL,
-			TokenURL: constants.PatreonTokenURL,
+			AuthURL:  PatreonAuthURL,
+			TokenURL: PatreonTokenURL,
 		},
 		RedirectURL: patreonConfig.redirectURL,
 		Scopes: patreonConfig.scopes,
@@ -105,7 +108,7 @@ func (c *PatreonClient) FetchMember(id string, opts ...requestOption) (*resource
 func (c *PatreonClient) buildURL(path string, opts ...requestOption) (string, error) {
 	cfg := getOptions(opts...)
 
-	fullURL, _ := url.JoinPath(constants.PatreonBaseURL, path)
+	fullURL, _ := url.JoinPath(PatreonBaseURL, path)
 	u, err := url.ParseRequestURI(fullURL)
 	if err != nil {
 		return "", err
