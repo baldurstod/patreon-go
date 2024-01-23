@@ -23,6 +23,6 @@ type Address struct {
 	} `json:"attributes"`
 	Relationships struct {
 		Campaigns              *RelationshipArray    `json:"campaigns,omitempty"`
-		User                   *Relationship         `json:"user"`
+		User                   *Relationship         `json:"user,omitempty"`
 	} `json:"relationships"`
 }
