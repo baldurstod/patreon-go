@@ -139,11 +139,11 @@ func (c *PatreonClient) buildURL(path string, opts ...requestOption) (string, er
 }
 
 func (c *PatreonClient) get(path string, v interface{}, opts ...requestOption) error {
-	addr, err := c.buildURL(path, opts...)
-	fmt.Println(addr)
 	if c.httpClient == nil {
 		return errors.New("http client is nil")
 	}
+
+	addr, err := c.buildURL(path, opts...)
 
 	if err != nil {
 		return err
