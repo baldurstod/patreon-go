@@ -32,3 +32,12 @@ type Member struct {
 		User                   *UserRelationship         `json:"user"`
 	} `json:"relationships"`
 }
+
+// MemberResponse wraps Patreon's fetch member API response
+type MemberResponse struct {
+	Data     Member   `json:"data"`
+	Included Includes `json:"included"`
+	Links    struct {
+		Self string `json:"self"`
+	} `json:"links"`
+}

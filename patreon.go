@@ -90,6 +90,12 @@ func (c *PatreonClient) FetchUser(opts ...requestOption) (*resources.UserRespons
 	return resp, err
 }
 
+func (c *PatreonClient) FetchMember(id string, opts ...requestOption) (*resources.MemberResponse, error) {
+	resp := &resources.MemberResponse{}
+	err := c.get("/api/oauth2/v2/members/" + id, resp, opts...)
+	return resp, err
+}
+
 func (c *PatreonClient) buildURL(path string, opts ...requestOption) (string, error) {
 	cfg := getOptions(opts...)
 
