@@ -5,7 +5,6 @@ import (
 	"errors"
 	"strconv"
 	"context"
-	"time"
 	"net/http"
 	"net/url"
 	"encoding/json"
@@ -63,24 +62,15 @@ func (c *PatreonClient) Exchange(authCode string) error {
 	if err != nil {
 		fmt.Println(err);
 	} else {
-		c.setToken(token)
+		c.SetToken(token)
 	}
 
 	return err
 }
 
-func (c *PatreonClient) setToken(token *oauth2.Token) {
+func (c *PatreonClient) SetToken(token *oauth2.Token) {
 	c.token = token
 	c.httpClient = c.oauth2Config.Client(context.Background(), token)
-}
-
-func (c *PatreonClient) SetTokens(AccessToken string, RefreshToken string, Expiry time.Time) {
-	c.setToken(&oauth2.Token{
-			AccessToken:  AccessToken,
-			RefreshToken: RefreshToken,
-			Expiry: Expiry,
-		},
-	)
 }
 
 func (c *PatreonClient) GetToken() *oauth2.Token {
