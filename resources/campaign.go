@@ -4,6 +4,8 @@ import (
 	"time"
 )
 
+var CampaignFields = []string{"created_at", "creation_name", "discord_server_id", "google_analytics_id", "has_rss", "has_sent_rss_notify", "image_small_url", "image_url", "is_charged_immediately", "is_monthly", "is_nsfw", "main_video_embed", "main_video_url", "one_liner", "patron_count", "pay_per_name", "pledge_url", "published_at", "rss_artwork_url", "rss_feed_title", "show_earnings", "summary", "thanks_embed", "thanks_msg", "thanks_video_url", "url", "vanity"}
+
 // The creator's page, and the top-level object for accessing lists of members, tiers, etc.
 type Campaign struct {
 	Type       string `json:"type"`
