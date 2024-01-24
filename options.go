@@ -1,4 +1,4 @@
-package main
+package patreon
 
 import (
 	"net/url"
