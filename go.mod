@@ -1,4 +1,4 @@
-module patreon-go
+module github.com/baldurstod/patreon-go
 
 go 1.19
 
