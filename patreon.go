@@ -8,7 +8,7 @@ import (
 	"golang.org/x/oauth2"
 	"net/http"
 	"net/url"
-	"patreon-go/resources"
+	"github.com/baldurstod/patreon-go/resources"
 	"strconv"
 )
 
