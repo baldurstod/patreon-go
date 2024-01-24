@@ -17,6 +17,6 @@ type Goal struct {
 		Title               string    `json:"title"`
 	} `json:"attributes"`
 	Relationships struct {
-		Campaign   *Relationship      `json:"campaign,omitempty"`
+		Campaign *Relationship `json:"campaign,omitempty"`
 	} `json:"relationships"`
 }

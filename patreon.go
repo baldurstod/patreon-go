@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"errors"
-	"strconv"
 	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"golang.org/x/oauth2"
 	"net/http"
 	"net/url"
-	"encoding/json"
-	"golang.org/x/oauth2"
 	"patreon-go/resources"
+	"strconv"
 )
 
 const PatreonAuthURL = "https://www.patreon.com/oauth2/authorize"
@@ -17,38 +17,38 @@ const PatreonTokenURL = "https://www.patreon.com/api/oauth2/token"
 const PatreonBaseURL = "https://www.patreon.com/"
 
 type PatreonConfig struct {
-	clientID string
+	clientID     string
 	clientSecret string
-	redirectURL string
-	scopes []string
+	redirectURL  string
+	scopes       []string
 }
 
 func NewPatreonConfig(clientID string, clientSecret string, redirectURL string, scopes []string) *PatreonConfig {
 	return &PatreonConfig{
-		clientID: clientID,
+		clientID:     clientID,
 		clientSecret: clientSecret,
-		redirectURL: redirectURL,
-		scopes: scopes,
+		redirectURL:  redirectURL,
+		scopes:       scopes,
 		//Scopes: []string{"users", "pledges-to-me", "my-campaign"},
 	}
 }
 
 type PatreonClient struct {
-	httpClient *http.Client
+	httpClient   *http.Client
 	oauth2Config *oauth2.Config
-	token *oauth2.Token
+	token        *oauth2.Token
 }
 
 func NewPatreonClient(patreonConfig *PatreonConfig) *PatreonClient {
 	config := oauth2.Config{
-		ClientID: patreonConfig.clientID,
+		ClientID:     patreonConfig.clientID,
 		ClientSecret: patreonConfig.clientSecret,
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  PatreonAuthURL,
 			TokenURL: PatreonTokenURL,
 		},
 		RedirectURL: patreonConfig.redirectURL,
-		Scopes: patreonConfig.scopes,
+		Scopes:      patreonConfig.scopes,
 	}
 
 	return &PatreonClient{
@@ -60,7 +60,7 @@ func (c *PatreonClient) Exchange(authCode string) error {
 	token, err := c.oauth2Config.Exchange(context.Background(), authCode)
 
 	if err != nil {
-		fmt.Println(err);
+		fmt.Println(err)
 	} else {
 		c.SetToken(token)
 	}
@@ -91,7 +91,7 @@ func (c *PatreonClient) FetchCampaigns(opts ...requestOption) (*resources.Campai
 
 func (c *PatreonClient) FetchMember(id string, opts ...requestOption) (*resources.MemberResponse, error) {
 	resp := &resources.MemberResponse{}
-	err := c.get("/api/oauth2/v2/members/" + id, resp, opts...)
+	err := c.get("/api/oauth2/v2/members/"+id, resp, opts...)
 	return resp, err
 }
 

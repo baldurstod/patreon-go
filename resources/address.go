@@ -22,7 +22,7 @@ type Address struct {
 		State       string    `json:"state"`
 	} `json:"attributes"`
 	Relationships struct {
-		Campaigns              *RelationshipArray    `json:"campaigns,omitempty"`
-		User                   *Relationship         `json:"user,omitempty"`
+		Campaigns *RelationshipArray `json:"campaigns,omitempty"`
+		User      *Relationship      `json:"user,omitempty"`
 	} `json:"relationships"`
 }
