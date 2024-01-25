@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/baldurstod/patreon-go/resources"
 	"golang.org/x/oauth2"
 	"net/http"
 	"net/url"
-	"github.com/baldurstod/patreon-go/resources"
 	"strconv"
 )
 
@@ -59,9 +59,7 @@ func NewPatreonClient(patreonConfig *PatreonConfig) *PatreonClient {
 func (c *PatreonClient) Exchange(authCode string) error {
 	token, err := c.oauth2Config.Exchange(context.Background(), authCode)
 
-	if err != nil {
-		fmt.Println(err)
-	} else {
+	if err == nil {
 		c.SetToken(token)
 	}
 
