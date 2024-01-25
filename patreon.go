@@ -16,6 +16,7 @@ const PatreonAuthURL = "https://www.patreon.com/oauth2/authorize"
 const PatreonTokenURL = "https://www.patreon.com/api/oauth2/token"
 const PatreonBaseURL = "https://www.patreon.com/"
 
+// PatreonConfig is the configuration of an API client registered here: https://www.patreon.com/portal/registration/register-clients
 type PatreonConfig struct {
 	clientID     string
 	clientSecret string
@@ -23,6 +24,7 @@ type PatreonConfig struct {
 	scopes       []string
 }
 
+// Creates a new PatreonConfig
 func NewPatreonConfig(clientID string, clientSecret string, redirectURL string, scopes []string) *PatreonConfig {
 	return &PatreonConfig{
 		clientID:     clientID,
@@ -33,12 +35,18 @@ func NewPatreonConfig(clientID string, clientSecret string, redirectURL string, 
 	}
 }
 
+// PatreonClient is the access point of the patreon API
+// You need one PatreonClient per user
 type PatreonClient struct {
 	httpClient   *http.Client
 	oauth2Config *oauth2.Config
 	token        *oauth2.Token
 }
 
+// Creates a new PatreonClient from a PatreonConfig
+// At this point the client is not usable, you need to either:
+//   - convert an authorization code into a token with Exchange()
+//   - set the token with SetToken()
 func NewPatreonClient(patreonConfig *PatreonConfig) *PatreonClient {
 	config := oauth2.Config{
 		ClientID:     patreonConfig.clientID,
@@ -56,6 +64,8 @@ func NewPatreonClient(patreonConfig *PatreonConfig) *PatreonClient {
 	}
 }
 
+// Converts an authorization code into a token.
+// The authorization code is available as the code param in the redirected url
 func (c *PatreonClient) Exchange(authCode string) error {
 	token, err := c.oauth2Config.Exchange(context.Background(), authCode)
 
@@ -66,11 +76,16 @@ func (c *PatreonClient) Exchange(authCode string) error {
 	return err
 }
 
+// Set the token associated with this client
+// Use case: creating the client from a serialized token (in a session for instance)
 func (c *PatreonClient) SetToken(token *oauth2.Token) {
 	c.token = token
 	c.httpClient = c.oauth2Config.Client(context.Background(), token)
 }
 
+// Get the token associated with this client
+// Use case: serialisation of the token (in a session for instance)
+//     - Note that the token has to be serialized at the end of your process cause it might be refreshed
 func (c *PatreonClient) GetToken() *oauth2.Token {
 	return c.token
 }
