@@ -85,7 +85,7 @@ func (c *PatreonClient) SetToken(token *oauth2.Token) {
 
 // Get the token associated with this client
 // Use case: serialisation of the token (in a session for instance)
-//     - Note that the token has to be serialized at the end of your process cause it might be refreshed
+//   - Note that the token has to be serialized at the end of your process cause it might be refreshed
 func (c *PatreonClient) GetToken() *oauth2.Token {
 	return c.token
 }
@@ -106,6 +106,27 @@ func (c *PatreonClient) FetchMember(id string, opts ...requestOption) (*resource
 	resp := &resources.MemberResponse{}
 	err := c.get("/api/oauth2/v2/members/"+id, resp, opts...)
 	return resp, err
+}
+
+// Get the membership of the user to your campaign
+func (c *PatreonClient) GetMembership() (*resources.Member, error) {
+	userResponse, err := c.FetchUser(
+		WithIncludes("memberships"),
+		WithFields("member", resources.MemberFields...),
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	items := userResponse.Included.Items
+	for _, item := range items {
+		if member, ok := item.(*resources.Member); ok {
+			return member, nil
+		}
+	}
+
+	return nil, errors.New("no membership found")
 }
 
 func (c *PatreonClient) buildURL(path string, opts ...requestOption) (string, error) {
