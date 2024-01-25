@@ -1,0 +1,10 @@
+{
+	"client_id": "",
+	"client_secret": "",
+	"redirect_url":  "",
+	"auth_code":  "",
+	"creator_access_token": "",
+	"creator_refresh_token": "",
+	"patron_access_token": "",
+	"patron_refresh_token": ""
+}
