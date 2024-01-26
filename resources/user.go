@@ -21,7 +21,7 @@ type User struct {
 		ImageURL        string    `json:"image_url"`
 		IsEmailVerified bool      `json:"is_email_verified"`
 		LastName        string    `json:"last_name"`
-		LikeCount       string    `json:"like_count"`
+		LikeCount       int       `json:"like_count"`
 		// TODO: social_connections
 		ThumbURL string `json:"thumb_url"`
 		URL      string `json:"url"`
