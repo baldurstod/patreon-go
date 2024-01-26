@@ -12,7 +12,7 @@ type User struct {
 	ID         string `json:"id"`
 	Attributes struct {
 		About           string    `json:"about"`
-		CanSeeNsfw      string    `json:"can_see_nsfw"`
+		CanSeeNsfw      bool      `json:"can_see_nsfw"`
 		Created         time.Time `json:"created"`
 		Email           string    `json:"email"`
 		FirstName       string    `json:"first_name"`
