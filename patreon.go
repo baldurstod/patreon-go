@@ -108,25 +108,26 @@ func (c *PatreonClient) FetchMember(id string, opts ...requestOption) (*resource
 	return resp, err
 }
 
-// Get the membership of the user to your campaign
-func (c *PatreonClient) GetMembership() (*resources.Member, error) {
+// Get the user and the membership of the user to your campaign
+func (c *PatreonClient) GetMembership() (*resources.User, *resources.Member, error) {
 	userResponse, err := c.FetchUser(
 		WithIncludes("memberships"),
+		WithFields("user", resources.UserFields...),
 		WithFields("member", resources.MemberFields...),
 	)
 
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	items := userResponse.Included.Items
 	for _, item := range items {
 		if member, ok := item.(*resources.Member); ok {
-			return member, nil
+			return &userResponse.Data, member, nil
 		}
 	}
 
-	return nil, errors.New("no membership found")
+	return nil, nil, errors.New("no membership found")
 }
 
 func (c *PatreonClient) buildURL(path string, opts ...requestOption) (string, error) {

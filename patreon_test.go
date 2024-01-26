@@ -71,9 +71,9 @@ func TestGetMembership(t *testing.T) {
 			Expiry:       time.Now().Add(30 * 24 * time.Hour),
 		},
 	)
-	member, err := patreonClient.GetMembership()
+	user, member, err := patreonClient.GetMembership()
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println("TestGetMembership:", member)
+	fmt.Println("TestGetMembership:", user, member)
 }
